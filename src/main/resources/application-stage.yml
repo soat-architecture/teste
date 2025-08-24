@@ -1,0 +1,13 @@
+##############
+### Spring ###
+##############
+spring:
+
+  ################
+  ### Database ###
+  ################
+  datasource:
+    url: jdbc:postgresql://${AUTO_REPAIR_DB_URL}:${AUTO_REPAIR_DB_PORT}/autorepairshop
+    username: ${AUTO_REPAIR_DB_USERNAME}
+    password: ${AUTO_REPAIR_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver

@@ -1,0 +1,36 @@
+services:
+  postgres:
+    container_name: postgres-auto-repair-shop
+    image: postgres:15.5-alpine
+    environment:
+      POSTGRES_DB: autorepairshop
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d autorepairshop" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    container_name: auto-repair-shop
+    build: .
+    ports:
+      - "9000:8080"
+    environment:
+      - DB_URI=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+      - SPRING_PROFILES_ACTIVE=prod
+
+volumes:
+  postgres-data:
+
+networks:
+  default:
+    driver: bridge
